@@ -10,16 +10,8 @@ using WPFNetFrameworkDemo.Commands;
 using System.Collections.ObjectModel;
 namespace WPFNetFrameworkDemo.ViewModels
 {
-    public class EmployeeViewModel : INotifyPropertyChanged
+    public class EmployeeViewModel : BaseNotifyPropertyChanged
     {
-        #region INotifyPropertyChanged_Implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        #endregion
-
         EmployeeService ObjEmployeeService;
         public EmployeeViewModel()
         {

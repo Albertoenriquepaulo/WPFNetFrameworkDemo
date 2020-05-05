@@ -7,19 +7,8 @@ using System.Threading.Tasks;
 using System.ComponentModel; //Notifica cuando hay cambios en un property, cuando se invoka (INotifyPropertyChanged)
 namespace WPFNetFrameworkDemo.Models
 {
-    public class Employee : INotifyPropertyChanged //Esta interface debe estar implementada en cualquier clase que suponga hará cambios en UI
+    public class Employee : BaseNotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //Crearemos un metodo que pueda llamar al event handler
-        private void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null) //Significa https://www.youtube.com/watch?v=dFvMpDDo9Mc&list=PL0wefbX90CmYNrO67FtZNDlnSrmWkF4bJ&index=3
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-
         private int id;
         public int Id
         {
