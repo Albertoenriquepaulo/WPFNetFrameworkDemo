@@ -11,18 +11,8 @@ using System.Collections.ObjectModel;
 
 namespace WPFNetFrameworkDemo.ViewModels
 {
-    public class EmployeeViewModel : INotifyPropertyChanged
+    public class EmployeeViewModel : BaseNotifyPropertyChanged
     {
-        #region INotifyPropertyChanged_Implementation
-        public event PropertyChangedEventHandler PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null) //Significa https://www.youtube.com/watch?v=dFvMpDDo9Mc&list=PL0wefbX90CmYNrO67FtZNDlnSrmWkF4bJ&index=3
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
-        #endregion
 
         EmployeeService ObjEmployeeService;
         public EmployeeViewModel()
@@ -77,9 +67,9 @@ namespace WPFNetFrameworkDemo.ViewModels
                 bool IsSaved = ObjEmployeeService.Add(Clone(currentEmployee));
                 if (IsSaved)
                 {
-                    CurrentEmployee.Id = 0;
-                    CurrentEmployee.Name = "";
-                    CurrentEmployee.Age = 0;
+                    //CurrentEmployee.Id = 0;
+                    //CurrentEmployee.Name = "";
+                    //CurrentEmployee.Age = 0;
                     Message = "Employee Saved";
                     LoadData();
                 }
