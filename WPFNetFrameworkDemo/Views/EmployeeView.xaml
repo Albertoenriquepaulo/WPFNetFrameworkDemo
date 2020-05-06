@@ -51,8 +51,8 @@
         <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.Column="1">
             <Button Name="btnAdd" Content="Add" Margin="5,8" Padding="3" Command="{Binding Path=SaveCommand}"/>
             <Button Name="btnSearch" Content="Search" Margin="5,8" Padding="3" Command="{Binding Path=SearchCommand}"/>
-            <Button Name="btnUpdate" Content="Update" Margin="5,8" Padding="3"/>
-            <Button Name="btnDelete" Content="Delete" Margin="5,8" Padding="3"/>
+            <Button Name="btnUpdate" Content="Update" Margin="5,8" Padding="3" Command="{Binding Path=UpdateCommand}"/>
+            <Button Name="btnDelete" Content="Delete" Margin="5,8" Padding="3" Command="{Binding Path=DeleteCommand}"/>
         </StackPanel>
         <TextBlock Name="txtBlockMessage"
                    Grid.Row="5"

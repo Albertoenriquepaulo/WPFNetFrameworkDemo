@@ -55,7 +55,7 @@ namespace WPFNetFrameworkDemo.Models
             return isUpdated;
         }
 
-        public bool Deleted(int id)
+        public bool Delete(int id)
         {
             Employee employee = ObjEmployeeList.FirstOrDefault(x => x.Id == id);
             if (employee == null)

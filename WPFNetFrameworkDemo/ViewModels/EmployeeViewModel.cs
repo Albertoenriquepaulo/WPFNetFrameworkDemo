@@ -8,10 +8,22 @@ using System.ComponentModel;
 using WPFNetFrameworkDemo.Models;
 using WPFNetFrameworkDemo.Commands;
 using System.Collections.ObjectModel;
+
 namespace WPFNetFrameworkDemo.ViewModels
 {
-    public class EmployeeViewModel : BaseNotifyPropertyChanged
+    public class EmployeeViewModel : INotifyPropertyChanged
     {
+        #region INotifyPropertyChanged_Implementation
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null) //Significa https://www.youtube.com/watch?v=dFvMpDDo9Mc&list=PL0wefbX90CmYNrO67FtZNDlnSrmWkF4bJ&index=3
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+        #endregion
+
         EmployeeService ObjEmployeeService;
         public EmployeeViewModel()
         {
@@ -20,6 +32,8 @@ namespace WPFNetFrameworkDemo.ViewModels
             CurrentEmployee = new Employee();
             SaveCommand = new RelayCommand(Save);
             SearchCommand = new RelayCommand(Search);
+            UpdateCommand = new RelayCommand(Update);
+            DeleteCommand = new RelayCommand(Delete);
         }
 
         #region DisplayOperation
@@ -60,11 +74,14 @@ namespace WPFNetFrameworkDemo.ViewModels
         {
             try
             {
-                bool IsSaved = ObjEmployeeService.Add(CurrentEmployee);
-                LoadData();
+                bool IsSaved = ObjEmployeeService.Add(Clone(currentEmployee));
                 if (IsSaved)
                 {
+                    CurrentEmployee.Id = 0;
+                    CurrentEmployee.Name = "";
+                    CurrentEmployee.Age = 0;
                     Message = "Employee Saved";
+                    LoadData();
                 }
                 else
                 {
@@ -79,8 +96,8 @@ namespace WPFNetFrameworkDemo.ViewModels
         }
         #endregion
 
+        #region SearchOperation
         private RelayCommand searchCommand;
-
         public RelayCommand SearchCommand
         {
             get { return searchCommand; }
@@ -108,7 +125,79 @@ namespace WPFNetFrameworkDemo.ViewModels
                 Message = ex.Message;
             }
         }
+        #endregion
+
+        #region UpdateOperation
+        private RelayCommand updateCommand;
+
+        public RelayCommand UpdateCommand
+        {
+            get { return updateCommand; }
+            set { updateCommand = value; }
+        }
+
+        public void Update()
+        {
+            try
+            {
+                bool IsUpdated = ObjEmployeeService.Update(Clone(CurrentEmployee));
+                if (IsUpdated)
+                {
+                    Message = "Employee Updated";
+                    LoadData();
+                }
+                else
+                {
+                    Message = "Update Operation Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+        }
+        #endregion
+
+        #region DeleteOperation
+        private RelayCommand deleteCommand;
+
+        public RelayCommand DeleteCommand
+        {
+            get { return deleteCommand; }
+            set { deleteCommand = value; }
+        }
+
+        public void Delete()
+        {
+            try
+            {
+
+                bool IsUpdated = ObjEmployeeService.Delete((Clone(currentEmployee)).Id);
+                if (IsUpdated)
+                {
+                    Message = "Employee Deleted";
+                    LoadData();
+                }
+                else
+                {
+                    Message = "Delete Operation Failed";
+                }
+            }
+            catch (Exception ex)
+            {
+                Message = ex.Message;
+            }
+        }
+        #endregion
 
 
+        public Employee Clone(Employee obj)
+        {
+            Employee clone = (Employee)obj.Clone();
+            clone.Id = CurrentEmployee.Id;
+            clone.Name = CurrentEmployee.Name;
+            clone.Age = CurrentEmployee.Age;
+            return clone;
+        }
     }
 }
